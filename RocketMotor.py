@@ -56,7 +56,7 @@ class RocketMotor:
                 }
             self._data['data_points'].append(data) 
 
-        print(self._data) 
+        # print(self._data) 
         
 
     def get_thrust_weight(self, time): 

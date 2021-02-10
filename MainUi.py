@@ -1,6 +1,14 @@
 import sys 
+import os 
+import json 
 
-from PyQt5.QtCore import QSize, Qt 
+from pyqtgraph import PlotWidget, plot
+import pyqtgraph as pg
+
+
+
+from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtGui import QDoubleValidator
 from PyQt5.QtWidgets import (
     QApplication, 
     QMainWindow, 
@@ -13,9 +21,16 @@ from PyQt5.QtWidgets import (
     QComboBox,
     QLabel,
     QFormLayout,
-    QPlainTextEdit
+    QPlainTextEdit,
+    QLineEdit,
+    QFileDialog, 
+    QTableWidget, 
+    QTableWidgetItem, 
 )
 
+import SimulationKinematics 
+from SimulationWidget import SimulationWidget 
+from CommunicationWidget import CommunicationWidget 
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -27,6 +42,7 @@ class MainWindow(QMainWindow):
         layout.addWidget(CommunicationWidget(self))
         main_container.setLayout(layout)
         self.setCentralWidget(main_container)
+        self.showMaximized()
 
     def create_central_widget(self): 
         # create a tab managaer for the different pages 
@@ -36,76 +52,12 @@ class MainWindow(QMainWindow):
         return tabs 
 
 
-class CommunicationWidget(QWidget): 
-    def __init__(self, parent):
-        super(QWidget, self).__init__(parent)
-        self.layout = QVBoxLayout(self)
-        self.settings = QWidget() 
-        self.output_stream = QWidget()
-
-        # initialize the settings box 
-        self.settings_layout = QVBoxLayout()
-        self.settings_layout.addWidget(self.make_settings_group())
-        
-        self.connect_button = QPushButton("Connect")
-        self.disconnect_button = QPushButton("Disconnect")
-        connection_label = QLabel("Connected: ")
-        self.settings_layout.addWidget(self.connect_button)
-        self.settings_layout.addWidget(self.disconnect_button)
-        self.settings_layout.addWidget(connection_label)
-        
-        self.settings.setLayout(self.settings_layout)
-
-
-        self.layout.addWidget(self.settings)
-
-        # terminal output 
-        self.terminal = QPlainTextEdit() 
-        self.layout.addWidget(self.terminal)
-
-        self.layout.addStretch(1)
-
-        
-        self.setLayout(self.layout)
-        
-
-    def make_settings_group(self):
-        connection_settings_groupbox = QGroupBox("Connection Settings")
-        port_label = QLabel("Port: ")
-        baud_label = QLabel("Baud: ")
-        port_options = ["COM4","COM5"]
-        self.port_input = QComboBox() 
-        self.port_input.addItems(port_options)
-        baud_options = ["115200", "9600"]
-        self.baud_input = QComboBox() 
-        self.baud_input.addItems(baud_options)
-
-        connection_settings_layout = QFormLayout()
-        connection_settings_layout.addRow("Port:", self.port_input)
-        connection_settings_layout.addRow("Baud:",self.baud_input) 
-        connection_settings_groupbox.setLayout(connection_settings_layout)
-        return connection_settings_groupbox
 
     
 
-class SimulationWidget(QWidget):
-    def __init__(self, parent): 
-        super(QWidget, self).__init__(parent)
-        self.layout = QVBoxLayout(self)
-        self.graph = QWidget() 
-        self.settings = QWidget() 
-        self.layout.addWidget(self.settings)
-        self.layout.addWidget(self.graph) 
-        self.setLayout(self.layout) 
-
-    def create_settings_widget(self):
-        container = QWidget() 
 
 
-        settings_layout = QFormLayout() 
-        self.rocket_dry_mass = Q
-        settings_layout.addRow()
-         
+        
 class ProgramWidget(QWidget): 
     def __init__(self, parent): 
         super(QWidget, self).__init__(parent) 

@@ -1,5 +1,7 @@
 import RocketMotor 
 import math 
+import copy 
+
 
 rocket_data = {
     "major_od" : 1,
@@ -60,18 +62,20 @@ class SimulationKinematics:
         motor_file.close() 
         data = []
         # run one iteration 
-        data.append(state.copy())
+        data.append(copy.deepcopy(state))
         while(state['velocity'][2] > 0 or state['flight_time'] < 1): 
             # increment the time 
             state['flight_time'] += self._simulation_settings['time_step']
             self.kinematics(self._rocket_data, state, self._simulation_settings, motor)
-            data.append(state.copy())
+            data.append(copy.deepcopy(state))
+            
             # print out the altitude and velocity 
             # print("Accel, Vel, Alt, Time: ", state['acceleration'], " ", state['velocity'], " " , state['position'], " " , state['flight_time'])
             # print("Thrust: ", state['thrust']) 
             # print("Weight: ", state['weight']) 
 
         # return data 
+        # print(data)
         return data
         
 
@@ -120,7 +124,7 @@ class SimulationKinematics:
         rho = self.calc_rho(rocket_state['position'][2]) 
         cd = self.get_coeff_drag(rocket_state['velocity'][2])
         drag = 1/2 * cd * rocket_state['reference_area'] * rho * math.pow(rocket_state['velocity'][2],2)
-        print(rho, " ", cd, " ", drag)
+        #print(rho, " ", cd, " ", drag)
         return drag 
 
     def calc_rho(self, altitude): 
