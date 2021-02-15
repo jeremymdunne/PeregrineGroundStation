@@ -17,7 +17,6 @@ class PeregrineCommunicationHandler:
         self._messages = [] 
         self._message_index = 0 
 
-
     def parse_message(self, buffer):
         # parse the message into a recognizable format 
         # first get the flag 
@@ -29,7 +28,7 @@ class PeregrineCommunicationHandler:
         if(msg['flag'] == COMMUNICATION_VERBOSE_MESSAGE_FLAG):
             # interpret as a string 
             msg['verbose_str'] = buffer[1:-1] 
-            
+
         elif(msg['flag'] == COMMUNICATION_ERROR_MESSAGE_FLAG):
             msg['error_str'] = buffer[1:-1]
 
@@ -44,3 +43,4 @@ class PeregrineCommunicationHandler:
         elif(msg['flag'] == COMMUNICATION_FILE_REQUEST_ENTRY_CONTENT_FLAG):
             msg['file_entry'] = buffer[1:-1]
 
+        
