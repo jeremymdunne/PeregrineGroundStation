@@ -88,6 +88,7 @@ class PeregrineSerialCommunicationHandler():
         
         buffer = self.encode_message(message)
         # write it 
+        print("Sending Message", buffer)
         self._serial.write(buffer)
 
     def send_message(self, message):
